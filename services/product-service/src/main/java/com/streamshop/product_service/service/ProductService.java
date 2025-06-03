@@ -1,17 +1,33 @@
 package com.streamshop.product_service.service;
 
+import com.streamshop.product_service.presentation.dto.BulkProductCreateRequest;
+import com.streamshop.product_service.presentation.dto.PaginatedResponse;
+import com.streamshop.product_service.presentation.dto.ProductCreateRequest;
+import com.streamshop.product_service.presentation.dto.ProductDto;
+import com.streamshop.product_service.presentation.dto.ProductSearchRequest;
+import com.streamshop.product_service.presentation.dto.ProductUpdateRequest;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import com.streamshop.product_service.persistence.model.Product;
-import com.streamshop.product_service.presentation.dto.ProductRequest;
-
-/**
- * ProductService
- */
 public interface ProductService {
 
-  public Product addProduct(ProductRequest productRequest);
+  List<ProductDto> getAllProducts();
 
-  public List<Product> getAllProducts();
+  Optional<ProductDto> getProductById(UUID id);
 
+  ProductDto createProduct(ProductCreateRequest request);
+
+  ProductDto updateProduct(UUID id, ProductUpdateRequest request);
+
+  void deleteProduct(UUID id);
+
+  List<ProductDto> searchProducts(ProductSearchRequest searchRequest);
+
+  PaginatedResponse<ProductDto> getAllProducts(int page, int size);
+
+  ProductDto updateProductStockId(UUID productId, String stockId);
+
+  List<ProductDto> createBulkProducts(BulkProductCreateRequest bulkRequest);
 }
