@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Inherit BOM from Spring Boot -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.0</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.streamshop</groupId>
+  <artifactId>streamshop-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>streamshop-parent</name>
+  <description>Microservice e-commerce project aggregator</description>
+
+  <properties>
+    <java.version>21</java.version>
+    <spring-cloud.version>2025.0.0</spring-cloud.version>
+    <docker-password>dckr_pat_hLdzJv0GBF0bpROMXOwRbnpDLCc</docker-password>
+  </properties>
+
+
+
+  <build>
+
+      <plugins>
+        <!-- Compiler Plugin -->
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${project.parent.version}</version>
+          <configuration>
+            <image>
+              <name>mohanasundharam/${project.artifactId}</name>
+              <publish>true</publish>
+            </image>
+            <docker>
+              <publishRegistry>
+                <username>mohanasundharam</username>
+                <password>${docker-password}</password>
+              </publishRegistry>
+            </docker>
+            <excludes>
+              <exclude>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+              </exclude>
+            </excludes>
+
+          </configuration>
+        </plugin>
+      </plugins>
+
+  </build>
+
+  <modules>
+    <module>api-gateway</module>
+    <module>inventory-service</module>
+    <module>notification-service</module>
+    <module>product-service</module>
+    <module>userservice</module>
+    <module>order-service</module>
+  </modules>
+</project>
