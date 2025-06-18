@@ -19,11 +19,11 @@ StreamShop is a microservices-based e-commerce platform built with Spring Boot a
 ┌─────────────────┐ ┌───────────────┐ ┌─────────┐ ┌─────────────┐
 │ Product Service │ │ Order Service │ │User Svc │ │Inventory Svc│
 └─────────────────┘ └───────────────┘ └─────────┘ └─────────────┘
-                                                        │
-                                                        ▼
-                                              ┌─────────────────┐
-                                              │Notification Svc │
-                                              └─────────────────┘
+                            │
+                            ▼                      
+                    ┌─────────────────┐
+                    │Notification Svc │
+                    └─────────────────┘                          
 ```
 
 All requests pass through the API Gateway which handles authentication and routes requests to appropriate microservices.
