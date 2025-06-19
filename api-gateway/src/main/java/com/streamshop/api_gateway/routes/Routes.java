@@ -1,6 +1,7 @@
 
 package com.streamshop.api_gateway.routes;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.context.annotation.Bean;
@@ -22,15 +23,23 @@ import java.net.URI;
 @Configuration
 public class Routes {
 
+  @Value("${product.service.baseurl}")
+  private  String productServiceBaseurl ;
+    @Value("${order.service.baseurl}")
+    private  String orderServiceBaseurl ;
+    @Value("${inventory.service.baseurl}")
+    private  String inventoryServiceBaseurl ;
+
+
   @Bean
   RouterFunction<ServerResponse> productServiceRoutes() {
     return GatewayRouterFunctions.route("product-service")
         .route(RequestPredicates.path("/api/v1/products"),
             http())
-        .before(uri("http://localhost:8080"))
+        .before(uri(productServiceBaseurl))
         .route(RequestPredicates.path("/api/v1/categories"),
             http())
-        .before(uri("http://localhost:8080"))
+        .before(uri(productServiceBaseurl))
 
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("product-service-circuit-breaker",
             URI.create("forward:/fallback")))
@@ -42,7 +51,7 @@ public class Routes {
     return GatewayRouterFunctions.route("order-service")
         .route(RequestPredicates.path("/api/v1/orders/**"),
             http())
-        .before(uri("http://localhost:8081"))
+        .before(uri(orderServiceBaseurl))
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("order-service-circuit-breaker",
             URI.create("forward:/fallback")))
 
@@ -54,7 +63,7 @@ public class Routes {
     return GatewayRouterFunctions.route("inventory-service")
         .route(RequestPredicates.path("/api/v1/inventory/**"),
             http())
-        .before(uri("http://localhost:8082"))
+        .before(uri(inventoryServiceBaseurl))
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventory-service-circuit-breaker",
             URI.create("forward:/fallback")))
         .build();
@@ -67,7 +76,7 @@ public class Routes {
     return GatewayRouterFunctions.route("product_service_swagger")
         .route(RequestPredicates.path("/aggregate/product-service/v3/api-docs"),
             http())
-        .before(uri("http://localhost:8080"))
+        .before(uri(productServiceBaseurl))
         .filter(setPath("/api-docs"))
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("product-service-swagger-circuit-breaker",
             URI.create("forward:/fallback")))
@@ -79,7 +88,7 @@ public class Routes {
     return GatewayRouterFunctions.route("order_service_swagger")
         .route(RequestPredicates.path("/aggregate/order-service/v3/api-docs"),
             http())
-        .before(uri("http://localhost:8081"))
+        .before(uri(orderServiceBaseurl))
         .filter(setPath("/api-docs"))
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("order-service-swagger-circuit-breaker",
             URI.create("forward:/fallback")))
@@ -91,7 +100,7 @@ public class Routes {
     return GatewayRouterFunctions.route("inventory_service_swagger")
         .route(RequestPredicates.path("/aggregate/inventory-service/v3/api-docs"),
             http())
-        .before(uri("http://localhost:8082"))
+        .before(uri(inventoryServiceBaseurl))
         .filter(setPath("/api-docs"))
         .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventory-service-swagger-circuit-breaker",
             URI.create("forward:/fallback")))

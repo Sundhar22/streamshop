@@ -52,20 +52,20 @@ services:
     networks:
       - app-network
 
-  schema-registry:
-    image: confluentinc/cp-schema-registry:7.4.0
-    container_name: schema-registry
-    hostname: schema-registry
-    depends_on:
-      - kafka
-    ports:
-      - "8085:8085"  # Changed from 8085:8081
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:29092
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085  # Changed from 8081
-    networks:
-      - app-network
+#  schema-registry:
+#    image: confluentinc/cp-schema-registry:7.4.0
+#    container_name: schema-registry
+#    hostname: schema-registry
+#    depends_on:
+#      - kafka
+#    ports:
+#      - "8085:8085"  # Changed from 8085:8081
+#    environment:
+#      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+#      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:29092
+#      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085  # Changed from 8081
+#    networks:
+#      - app-network
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
